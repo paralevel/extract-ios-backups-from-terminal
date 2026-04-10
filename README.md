@@ -1,4 +1,4 @@
-# Extract iOS Backups From Terminal
+# Extract iOS Backups from Terminal
 Extract iOS backup files using only stock macOS command line tools
 
 <br>
@@ -19,7 +19,7 @@ sqlite3 -csv Manifest.db "select domain from Files" | uniq | less
 sqlite3 Manifest.db '.mode list' '.once /dev/stdout' 'select "find . -name " || fileID || " -print0 | xargs -0I{} ditto --clone {} ""'$(mktemp -d -t ios-bkp-extract -p $HOME/Desktop)'/" || domain || "/" || relativePath || """" from files' | grep -v "File Provider Storage" | grep -v AppDomain | sh
 ~~~
 
-- Find the corresponding original backup file to an extracted backup file
+- Find the original backup file that corresponds to an extracted file
 > Use the last part of the path only, from the domain part, e.g. `HomeDomain/rest/of/path`, without the leading `/Users/username/Desktop/ios-bkp-extract.<uid>/`
 ~~~flf
 sqlite3 Manifest.db '.once /dev/stdout' 'select fileID from files where concat(domain || "/" || relativePath) like "path_to_extracted_backup_file"' 
