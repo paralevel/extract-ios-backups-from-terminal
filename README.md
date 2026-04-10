@@ -24,8 +24,6 @@ sqlite3 Manifest.db '.mode list' '.once /dev/stdout' 'select "find . -name " || 
 ~~~flf
 sqlite3 Manifest.db '.once /dev/stdout' 'select fileID from files where concat(domain || "/" || relativePath) like "path_to_extracted_backup_file"' 
 ~~~
-
-- then…
 ~~~flf
 find orig_bkp_dir -name matching_file_id -type f
 ~~~
