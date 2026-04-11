@@ -14,7 +14,7 @@ sqlite3 -csv Manifest.db "select domain from Files" | uniq | less
 ~~~
 
 
-2. Extract everything except fileprovider and appdomain files to `~/Desktop/ios-bkp-extract.<uid>` – as APFS [file clones](https://eclecticlight.co/2024/03/20/apfs-files-and-clones/) (which don't occupy any storage space) with [deobsfuscated](https://apple.stackexchange.com/questions/451511/how-to-view-iphone-backup-contents-without-a-3rd-party-app) names – may take somewhere around 10 minutes
+2. Extract everything except fileprovider and appdomain files to `~/Desktop/ios-bkp-extract.<uid>` – as APFS file [clones](https://eclecticlight.co/2024/03/20/apfs-files-and-clones/) (which don't occupy any storage space) with deobsfuscated [names](https://apple.stackexchange.com/questions/451511/how-to-view-iphone-backup-contents-without-a-3rd-party-app) – may take somewhere around 10 minutes
 ~~~flf
 sqlite3 Manifest.db '.mode list' '.once /dev/stdout' 'select "find . -name " || fileID || " -print0 | xargs -0I{} ditto --clone {} ""'$(mktemp -d -t ios-bkp-extract -p $HOME/Desktop)'/" || domain || "/" || relativePath || """" from files' | grep -v "File Provider Storage" | grep -v AppDomain | sh
 ~~~
