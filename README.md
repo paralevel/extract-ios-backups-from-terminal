@@ -1,4 +1,4 @@
-# Extract iOS Backups from Terminal
+# Extract iOS backup files from Terminal
 Extract iOS backup files using only stock macOS command line tools
 
 <br>
