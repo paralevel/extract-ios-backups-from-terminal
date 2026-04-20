@@ -1,5 +1,7 @@
 # Extract iOS backup files with stock macOS CLI tools
-Extract files from iOS backups using only stock command line tools on macOS Tahoe 26
+Extract files from iOS backups using only stock command line tools on macOS
+
+_<sub>Compatibility: macOS Tahoe 26</sub>_
 
 <br>
 
