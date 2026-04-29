@@ -13,7 +13,7 @@ cd $HOME/Library/Application\ Support/MobileSync/Backup/00000000-000000000000000
 sqlite3 -csv Manifest.db "select domain from Files" | uniq | less 
 ~~~
 
-3. Extract everything as APFS file [clones](https://eclecticlight.co/2024/03/20/apfs-files-and-clones/) (which, unless they’re modified, don’t occupy any storage space) – with deobsfuscated [names](https://apple.stackexchange.com/questions/451511/how-to-view-iphone-backup-contents-without-a-3rd-party-app) to `~/Desktop/ios-backup-extract` (remember to delete this folder in advance everytime you run the command), excluding paths containing the strings AppDomain, CloudDocs and FileProvider, which should reduce the extraction time to somewhere around 10 minutes:
+3. Extract everything as deobsfuscated [named](https://apple.stackexchange.com/questions/451511/how-to-view-iphone-backup-contents-without-a-3rd-party-app) APFS file [clones](https://eclecticlight.co/2024/03/20/apfs-files-and-clones/) (which, unless they’re modified, don’t occupy any storage space), to `~/Desktop/ios-backup-extract` (remember to delete this folder in advance everytime you run the command), excluding paths containing the strings AppDomain, CloudDocs and FileProvider, which should reduce the extraction time to somewhere around 10 minutes:
 ~~~flf
 sqlite3 Manifest.db '.mode list' '.once /dev/stdout' 'select "find . -name " || fileID || " -print0 | xargs -0I{} ditto --clone {} ""'$HOME'/Desktop/ios-backup-extract/" || domain || "/" || relativePath || """" from files' | grep -v AppDomain | grep -v CloudDocs | grep -v FileProvider | sh
 ~~~
