@@ -21,7 +21,7 @@ sqlite3 Manifest.db '.mode list' '.once /dev/stdout' 'select "find . -name " || 
 - Locate an extracted file’s corresponding original file
 > Use the last part of the path only, from the domain part, e.g. `HomeDomain/rest/of/path`, without the leading `/Users/username/Desktop/ios-backup-extract/`
 ~~~flf
-sqlite3 Manifest.db '.once /dev/stdout' 'select fileID from files where concat(domain || "/" || relativePath) like "path_to_extracted_file"' 
+sqlite3 Manifest.db '.once /dev/stdout' 'select fileID from files where concat(domain || "/" || relativePath) like "path/to/extracted/file"' 
 ~~~
 ~~~flf
 find orig_bkp_dir -name matching_file_id -type f
