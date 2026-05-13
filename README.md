@@ -18,7 +18,7 @@ sqlite3 -csv Manifest.db "select domain from Files" | uniq | less
 sqlite3 Manifest.db '.mode list' '.once /dev/stdout' 'select "find . -name " || fileID || " -print0 | xargs -0I{} ditto --clone {} ""'$HOME'/Desktop/ios-backup-extract/" || domain || "/" || relativePath || """" from files' | grep -v AppDomain | grep -v CloudDocs | grep -v FileProvider | sh
 ~~~
 
-- Locate an extracted file’s corresponding original file
+- Locate the obsfuscated named original file that corresponds to a specific cloned file
 > Use the last part of the path only, from the domain part, e.g. `HomeDomain/rest/of/path`, without the leading `/Users/username/Desktop/ios-backup-extract/`
 ~~~flf
 sqlite3 Manifest.db '.once /dev/stdout' 'select fileID from files where concat(domain || "/" || relativePath) like "path/to/extracted/file"' 
