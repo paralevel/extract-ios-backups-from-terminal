@@ -8,7 +8,7 @@ Extracts backup files as APFS [clones](https://eclecticlight.co/2024/03/20/apfs-
 cd $HOME/Library/Application\ Support/MobileSync/Backup/00000000-0000000000000000
 ~~~
 
-- Get an overview of all the domains in the backup
+- Get an overview of all the domains in the backup (a domain represents an specific location on the iOS filesystem, e.g. HomeDomain which equals /private/var/mobile/)
 ~~~flf
 sqlite3 -csv Manifest.db "select domain from Files" | uniq | less 
 ~~~
