@@ -20,9 +20,6 @@ sqlite3 Manifest.db '.mode list' '.once /dev/stdout' 'select "find . -name " || 
 
 Locate a specific cloned file’s corresponding original file 
 ~~~flf
-sqlite3 Manifest.db '.once /dev/stdout' 'select fileID from files where "replace_with_path_to_extracted_file" like concat("%" || domain || "/" || relativePath)'
-~~~
-~~~flf
-find . -name matching_file_id -type f
+find . -name $(sqlite3 Manifest.db '.once /dev/stdout' 'select fileID from files where "replace_with_path_to_extracted_file" like concat("%" || domain || "/" || relativePath)') -type f
 ~~~
 
