@@ -18,9 +18,7 @@ sqlite3 -csv Manifest.db "select domain from Files" | uniq | less
 sqlite3 Manifest.db '.mode list' '.once /dev/stdout' 'select "find . -name " || fileID || " -print0 | xargs -0I{} ditto --clone {} ""'$HOME'/Desktop/ios-backup-extract/" || domain || "/" || relativePath || """" from files' | grep -v AppDomain | grep -v CloudDocs | grep -v FileProvider | sh
 ~~~
 
-<br>
-
-Locate a specific cloned file’s corresponding original file 
+- Locate a specific cloned file’s corresponding original file 
 ~~~flf
 find . -name $(sqlite3 Manifest.db '.once /dev/stdout' 'select fileID from files where "replace_with_path_to_extracted_file" like concat("%" || domain || "/" || relativePath)') -type f
 ~~~
