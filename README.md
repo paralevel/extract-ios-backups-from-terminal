@@ -1,8 +1,6 @@
 # Extract iOS backups with stock macOS CLI tools
 Extracts backup files as APFS [clones](https://eclecticlight.co/2024/03/20/apfs-files-and-clones/) (which, unless they’re modified, don’t occupy any storage space), [deciphers](https://apple.stackexchange.com/questions/451511/how-to-view-iphone-backup-contents-without-a-3rd-party-app) the file names and places them into the original iOS subdirectory structure
 
-<br>
-
 1. Navigate to the backup folder (replace the last part with the subfolder‘s actual name)
 ~~~flf
 cd $HOME/Library/Application\ Support/MobileSync/Backup/00000000-0000000000000000
