@@ -11,7 +11,7 @@ cd $HOME/Library/Application\ Support/MobileSync/Backup/00000000-000000000000000
 sqlite3 -csv Manifest.db "select domain from Files" | uniq | less 
 ~~~
 
-2. Extract everything to `~/Desktop/ios-backup-extract`, excluding paths containing the strings AppDomain, CloudDocs and FileProvider, which should reduce the extraction time to somewhere around 10 minutes:
+2. Extract everything to `~/Desktop/ios-backup-extract` (delete the folder first if it already exists), excluding paths containing the strings AppDomain, CloudDocs and FileProvider, which should reduce the extraction time to somewhere around 10 minutes:
 ~~~flf
 sqlite3 Manifest.db '.mode list' '.once /dev/stdout' 'select "find . -name " || fileID || " -print0 | xargs -0I{} ditto --clone {} ""'$HOME'/Desktop/ios-backup-extract/" || domain || "/" || relativePath || """" from files' | grep -v AppDomain | grep -v CloudDocs | grep -v FileProvider | sh
 ~~~
