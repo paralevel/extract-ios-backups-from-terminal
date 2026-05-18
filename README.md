@@ -11,7 +11,7 @@ sqlite3 -csv Manifest.db "select domain from Files" | uniq | less
 ~~~
 Extract everything to `~/Desktop/ios-backup-extract` (delete the folder first if it already exists), but exclude paths containing the strings AppDomain, CloudDocs and FileProvider to reduce the extraction time to around 5-20 minutes:
 ~~~flf
-sqlite3 Manifest.db '.mode list' '.once /dev/stdout' 'select "find . -name " || fileID || " -print0 | xargs -0I{} ditto --clone {} ""'$HOME'/Desktop/ios-backup-extract/" || domain || "/" || relativePath || """" from files' | grep -v AppDomain | grep -v CloudDocs | grep -v FileProvider | sh
+sqlite3 Manifest.db '.mode list' '.once /dev/stdout' 'select "find . -name " || fileID || " -print0 | xargs -0I{} ditto --clone {} ""'$HOME'/Desktop/ios-backup-extract/" || domain || "/" || relativePath || """" from files' | grep -v -e AppDomain -e CloudDocs -e FileProvider | sh
 ~~~
 Same as above but without excluding anything (takes close to an hour or more depending on the backup size)
 ~~~flf
