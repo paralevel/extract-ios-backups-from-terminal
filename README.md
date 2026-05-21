@@ -9,15 +9,19 @@ Get an overview of all the domains in the backup (a domain represents an specifi
 ~~~flf
 sqlite3 -csv Manifest.db "select domain from Files" | uniq | less 
 ~~~
-Extract everything to `~/Desktop/ios-backup-extract` (delete the folder first if it already exists), but exclude paths containing the strings AppDomain, CloudDocs and FileProvider to reduce the extraction time to around 5-20 minutes:
+Extract everything to `~/Desktop/ios-backup-extract` (remember to delete this first if you don’t want files being merged), but exclude paths containing the strings AppDomain and HomeDomain/Library/Mobile Documents (“iCloud Drive” files) to reduce the extraction time to a couple of minutes:
 ~~~flf
-sqlite3 Manifest.db '.mode list' '.once /dev/stdout' 'select "find . -name " || fileID || " -print0 | xargs -0I{} ditto --clone {} ""'$HOME'/Desktop/ios-backup-extract/" || domain || "/" || relativePath || """" from files' | grep -v -e AppDomain -e CloudDocs -e FileProvider | sh
+sqlite3 Manifest.db '.mode list' '.once /dev/stdout' 'select "find . -name " || fileID || " -print0 | xargs -0I{} ditto --clone {} ""'$HOME'/Desktop/ios-backup-extract/" || domain || "/" || relativePath || """" from files' | fgrep -v -e AppDomain -e 'HomeDomain/Library/Mobile Documents' | sh
 ~~~
-Same as above but without excluding anything (takes close to an hour or more depending on the backup size)
+Same as above but include everything (can take an hour or more maybe)
 ~~~flf
 sqlite3 Manifest.db '.mode list' '.once /dev/stdout' 'select "find . -name " || fileID || " -print0 | xargs -0I{} ditto --clone {} ""'$HOME'/Desktop/ios-backup-extract/" || domain || "/" || relativePath || """" from files' | sh
 ~~~
-Locate a specific cloned file’s corresponding original file
+Only AppDomain files but not AppDomainGroup-group.com.apple.FileProvider.LocalStorage/File Provider Storage (“On My iPhone” files) – can take around 10 minutes maybe
+~~~flf
+sqlite3 Manifest.db '.mode list' '.once /dev/stdout' 'select "find . -name " || fileID || " -print0 | xargs -0I{} ditto --clone {} ""'$HOME'/Desktop/ios-backup-extract/" || domain || "/" || relativePath || """" from files' | fgrep AppDomain | fgrep -v 'AppDomainGroup-group.com.apple.FileProvider.LocalStorage/File Provider Storage' | sh
+~~~
+Locate an already extracted file’s corresponding original file
 ~~~flf
 find . -name $(sqlite3 Manifest.db '.once /dev/stdout' 'select fileID from files where "replace_with_path_to_extracted_file" like concat("%" || domain || "/" || relativePath)') -type f
 ~~~
